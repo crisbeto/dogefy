@@ -3,7 +3,7 @@ ASCII Doge for your command line
 
 ## Command line usage
 
-Install via `npm install doge -g`.
+Install via `npm install dogefy -g`.
 
 Run with `doge Lorem ipsum dolor`.
 
