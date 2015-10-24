@@ -1,0 +1,17 @@
+{
+    "name": "dogefy",
+    "version": "0.1.0",
+    "description": "wow in your console",
+    "main": "doge.js",
+    "keywords": [
+        "wow",
+        "doge",
+        "cli",
+        "ascii"
+    ],
+    "author": "crisbeto",
+    "license": "MIT",
+    "bin": {
+        "doge": "cli"
+    }
+}
