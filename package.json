@@ -1,6 +1,6 @@
 {
     "name": "dogefy",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "ASCII Doge for your command line",
     "main": "doge.js",
     "keywords": [
