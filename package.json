@@ -1,7 +1,7 @@
 {
     "name": "dogefy",
     "version": "0.1.1",
-    "description": "wow in your console",
+    "description": "ASCII Doge for your command line",
     "main": "doge.js",
     "keywords": [
         "wow",
