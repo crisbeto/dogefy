@@ -32,7 +32,8 @@ module.exports = function(text){
     ];
     var blankChar = ' ';
     var cleaned = text.replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ').split(' ');
-    var blankSpaceRegex = new RegExp(blankChar + '*');
+    var blankSpaceBeforeRegex = new RegExp(blankChar + '*');
+    var blankSpaceAfterRegex = new RegExp(blankChar + '*$');
     var padding = 1;
     var pool = ['wow'];
     var prefixes = ['such', 'much', 'very', 'many'];
@@ -61,11 +62,12 @@ module.exports = function(text){
         var dogeIndex = wow.getRandomIndex();
         var isInfront = Math.random() > 0.5;
         var value = wow[dogeIndex];
-        var availableBefore = value.match(blankSpaceRegex)[0].length - padding;
+        var availableBefore = value.match(blankSpaceBeforeRegex)[0].length - padding;
+        var availableAfter = value.match(blankSpaceAfterRegex);
 
         if(isInfront && availableBefore >= item.length){
             value = item + value.substring(item.length, value.length);
-        }else{
+        }else if(availableAfter && availableAfter[0].length - padding >= item.length){
             value = value.substring(0, value.length - item.length) + blankChar + item;
         }
 
