@@ -1,9 +1,9 @@
-Array.prototype.getRandomItem = function(){
-    return this[this.getRandomIndex()];
+var getRandomIndex = function(arr){
+    return Math.floor(Math.random()*arr.length);
 };
 
-Array.prototype.getRandomIndex = function(){
-    return Math.floor(Math.random()*this.length);
+var getRandomItem = function(arr){
+    return arr && arr.length ? arr[getRandomIndex(arr)] : undefined;
 };
 
 module.exports = function(text){
@@ -42,8 +42,8 @@ module.exports = function(text){
         var i = Math.min(cleaned.length, Math.round(wow.length/3));
 
         while(i-- && cleaned.length){
-            var currentIndex = cleaned.getRandomIndex();
-            pool.push((Math.random() < 0.7 ? (prefixes.getRandomItem() + ' ') : '') + cleaned[currentIndex]);
+            var currentIndex = getRandomIndex(cleaned);
+            pool.push((Math.random() < 0.7 ? (getRandomItem(prefixes) + ' ') : '') + cleaned[currentIndex]);
             cleaned.splice(currentIndex, 1);
         }
     })();
@@ -59,7 +59,7 @@ module.exports = function(text){
     });
 
     pool.forEach(function(item){
-        var dogeIndex = wow.getRandomIndex();
+        var dogeIndex = getRandomIndex(wow);
         var isInfront = Math.random() > 0.5;
         var value = wow[dogeIndex];
         var availableBefore = value.match(blankSpaceBeforeRegex)[0].length - padding;

@@ -1,3 +1,2 @@
 #! /usr/bin/env node
-
 console.log(require('./doge.js')(process.argv.slice(2).join(' ')));
