@@ -2,8 +2,8 @@ var getRandomIndex = function(arr){
     return Math.floor(Math.random()*arr.length);
 };
 
-var getRandomItem = function(arr){
-    return arr && arr.length ? arr[getRandomIndex(arr)] : undefined;
+var popRandomItem = function(arr){
+    return arr.length ? arr.splice(getRandomIndex(arr), 1)[0] : null;
 };
 
 module.exports = function(text){
@@ -32,48 +32,43 @@ module.exports = function(text){
     ];
     var blankChar = ' ';
     var cleaned = text.replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ').split(' ');
-    var blankSpaceBeforeRegex = new RegExp(blankChar + '*');
-    var blankSpaceAfterRegex = new RegExp(blankChar + '*$');
-    var padding = 1;
-    var pool = ['wow'];
+    var pool = [];
     var prefixes = ['such', 'much', 'very', 'many'];
+    var maxWords = Math.min(Math.round(wow.length/3), cleaned.length);
+    var availableRows = wow.map(function(item, index){ return index; });
 
-    (function(){
-        var i = Math.min(cleaned.length, Math.round(wow.length/3));
+    while(cleaned.length && pool.length < maxWords){
+        pool.push(
+            (Math.random() < 0.7 ? prefixes[getRandomIndex(prefixes)] + ' ' : '') +
+            popRandomItem(cleaned)
+        );
+    }
 
-        while(i-- && cleaned.length){
-            var currentIndex = getRandomIndex(cleaned);
-            pool.push((Math.random() < 0.7 ? (getRandomItem(prefixes) + ' ') : '') + cleaned[currentIndex]);
-            cleaned.splice(currentIndex, 1);
-        }
-    })();
-
-    pool = pool.sort(function(a, b){
-        return b.length - a.length;
-    });
-
-    var extra = new Array(pool[0].length + padding).join(blankChar);
+    pool.push('wow');
+    pool = pool.sort(function(a, b){ return b.length - a.length; });
+    var extra = new Array(pool[0].length + 1).join(blankChar);
 
     wow.forEach(function(item, index){
         wow[index] = extra + item + extra;
     });
 
-    pool.forEach(function(item){
-        var dogeIndex = getRandomIndex(wow);
-        var isInfront = Math.random() > 0.5;
-        var value = wow[dogeIndex];
-        var availableBefore = value.match(blankSpaceBeforeRegex)[0].length - padding;
-        var availableAfter = value.match(blankSpaceAfterRegex);
+    (function addToRow(){
+        var wowRow = popRandomItem(availableRows);
+        var word = popRandomItem(pool);
+        var wowRowText = wow[wowRow];
 
-        if(isInfront && availableBefore >= item.length){
-            value = item + value.substring(item.length, value.length);
-        }else if(availableAfter && availableAfter[0].length - padding >= item.length){
-            value = value.substring(0, value.length - item.length) + blankChar + item;
+        if(Math.random() > 0.5){
+            wowRowText = word + wowRowText.substring(word.length, wowRowText.length);
+        }else{
+            wowRowText = wowRowText.substring(0, wowRowText.length - word.length) + blankChar + word;
         }
 
-        wow[dogeIndex] = value;
-    });
+        wow[wowRow] = wowRowText;
+
+        if(pool.length){
+            addToRow();
+        }
+    })();
 
     return wow.join('\n');
 };
-
