@@ -66,7 +66,7 @@ module.exports = function(text){
 };
 
 function getRandomIndex(arr){
-  return Math.floor(Math.random()*arr.length);
+  return Math.floor(Math.random() * arr.length);
 }
 
 function popRandomItem(arr){
